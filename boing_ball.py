@@ -2,6 +2,7 @@ import math
 import pygame
 
 BLACK = (0, 0, 0)
+GRAY = (96, 96, 96)
 LIGHTGRAY = (192, 192, 192)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -75,9 +76,20 @@ def fill_tiles(screen, points, alter):
             pygame.draw.polygon(screen, RED if alter else WHITE, (p1, p2, p3, p4))
             alter = not alter
 
+def draw_shadow(screen, points):
+    ps = []
+    for i in range(9):
+        x, y = points[0][i]
+        ps.append((x + 50, y))
+    for i in range(8):
+        x, y = points[9][7-i]
+        ps.append((x + 50, y))
+    pygame.draw.polygon(screen, GRAY, ps)
+
 def calc_and_draw(screen, phase, scale, x, y):
     points = calc_points(phase % 22.5)
     transform(points, scale, x, y)
+    draw_shadow(screen, points)
     fill_tiles(screen, points, phase >= 22.5)
     draw_meridians(screen, points)
     draw_parabels(screen, points)
