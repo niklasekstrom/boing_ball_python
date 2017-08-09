@@ -6,6 +6,7 @@ GRAY = (96, 96, 96)
 LIGHTGRAY = (192, 192, 192)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+PURPLE = (163, 33, 154)
 
 def get_lat(phase, i):
     if i == 0:
@@ -86,13 +87,39 @@ def draw_shadow(screen, points):
         ps.append((x + 50, y))
     pygame.draw.polygon(screen, GRAY, ps)
 
+def draw_wireframe(screen):
+    for i in range(14):
+        p1 = (50, i*35)
+        p2 = (750, i*35)
+        pygame.draw.line(screen, PURPLE, p1, p2, 2)
+
+    for i in range(21):
+        p1 = (50 + i*35, 0)
+        p2 = (50 + i*35, 455)
+        pygame.draw.line(screen, PURPLE, p1, p2, 2)
+
+    for i in range(21):
+        p1 = (50 + i*35, 455)
+        p2 = (i*40, 500)
+        pygame.draw.line(screen, PURPLE, p1, p2, 2)
+
+    ys = [463, 472, 481, 492]
+    for i in range(4):
+        y = ys[i]
+        x1 = 50 - 50.0*(y-455)/(500.0-455.0)
+        p1 = (x1, y)
+        p2 = (800-x1, y)
+        pygame.draw.line(screen, PURPLE, p1, p2, 2)
+        
+
 def calc_and_draw(screen, phase, scale, x, y):
     points = calc_points(phase % 22.5)
     transform(points, scale, x, y)
     draw_shadow(screen, points)
+    draw_wireframe(screen)
     fill_tiles(screen, points, phase >= 22.5)
-    draw_meridians(screen, points)
-    draw_parabels(screen, points)
+    #draw_meridians(screen, points)
+    #draw_parabels(screen, points)
 
 def init_and_run_loop():
     pygame.init()
@@ -117,9 +144,9 @@ def init_and_run_loop():
 
         phase = (phase + (43.5 if right else 1.5)) % 45.0
         x += 1.8 if right else -1.8
-        if x >= 680:
+        if x >= 665:
             right = False
-        elif x <= 120:
+        elif x <= 135:
             right = True
         y_ang = (y_ang + 2.5) % 360.0
         y = 380.0 - 150.0 * math.fabs(math.cos(y_ang * math.pi / 180.0))
