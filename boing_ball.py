@@ -103,15 +103,14 @@ def draw_wireframe(screen):
         p2 = (i*40, 500)
         pygame.draw.line(screen, PURPLE, p1, p2, 2)
 
-    ys = [463, 472, 481, 492]
-    for i in range(4):
+    ys = [466, 478, 491]
+    for i in range(3):
         y = ys[i]
         x1 = 50 - 50.0*(y-455)/(500.0-455.0)
         p1 = (x1, y)
         p2 = (800-x1, y)
         pygame.draw.line(screen, PURPLE, p1, p2, 2)
         
-
 def calc_and_draw(screen, phase, scale, x, y):
     points = calc_points(phase % 22.5)
     transform(points, scale, x, y)
@@ -149,7 +148,7 @@ def init_and_run_loop():
         elif x <= 135:
             right = True
         y_ang = (y_ang + 2.5) % 360.0
-        y = 380.0 - 150.0 * math.fabs(math.cos(y_ang * math.pi / 180.0))
+        y = 375.0 - 150.0 * math.fabs(math.cos(y_ang * math.pi / 180.0))
 
         screen.fill(LIGHTGRAY)
         calc_and_draw(screen, phase, 120.0, x, y)
