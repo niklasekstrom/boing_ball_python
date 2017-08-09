@@ -2,11 +2,11 @@ import math
 import pygame
 
 BLACK = (0, 0, 0)
-GRAY = (96, 96, 96)
-LIGHTGRAY = (192, 192, 192)
+GRAY = (102, 102, 102)
+LIGHTGRAY = (170, 170, 170)
 WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-PURPLE = (163, 33, 154)
+RED = (255, 26, 1)
+PURPLE = (183, 45, 168)
 
 def get_lat(phase, i):
     if i == 0:
@@ -88,27 +88,27 @@ def draw_shadow(screen, points):
     pygame.draw.polygon(screen, GRAY, ps)
 
 def draw_wireframe(screen):
-    for i in range(14):
-        p1 = (50, i*35)
-        p2 = (750, i*35)
+    for i in range(13):
+        p1 = (50, i*36)
+        p2 = (590, i*36)
         pygame.draw.line(screen, PURPLE, p1, p2, 2)
 
-    for i in range(21):
-        p1 = (50 + i*35, 0)
-        p2 = (50 + i*35, 455)
+    for i in range(16):
+        p1 = (50 + i*36, 0)
+        p2 = (50 + i*36, 432)
         pygame.draw.line(screen, PURPLE, p1, p2, 2)
 
-    for i in range(21):
-        p1 = (50 + i*35, 455)
-        p2 = (i*40, 500)
+    for i in range(16):
+        p1 = (50 + i*36, 432)
+        p2 = (i*42.666, 480)
         pygame.draw.line(screen, PURPLE, p1, p2, 2)
 
-    ys = [466, 478, 491]
+    ys = [442, 454, 468]
     for i in range(3):
         y = ys[i]
-        x1 = 50 - 50.0*(y-455)/(500.0-455.0)
+        x1 = 50 - 50.0*(y-432)/(480.0-432.0)
         p1 = (x1, y)
-        p2 = (800-x1, y)
+        p2 = (640-x1, y)
         pygame.draw.line(screen, PURPLE, p1, p2, 2)
         
 def calc_and_draw(screen, phase, scale, x, y):
@@ -123,7 +123,7 @@ def calc_and_draw(screen, phase, scale, x, y):
 def init_and_run_loop():
     pygame.init()
 
-    size = (800, 500)
+    size = (640, 512)
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("Boing Ball")
@@ -132,7 +132,9 @@ def init_and_run_loop():
     clock = pygame.time.Clock()
 
     phase = 0.0
-    x = 400
+    dp = 2.5
+    x = 320
+    dx = 2.1
     right = True
     y_ang = 0.0
 
@@ -141,14 +143,14 @@ def init_and_run_loop():
             if event.type == pygame.QUIT:
                 done = True
 
-        phase = (phase + (43.5 if right else 1.5)) % 45.0
-        x += 1.8 if right else -1.8
-        if x >= 665:
+        phase = (phase + ((45.0 - dp) if right else dp)) % 45.0
+        x += dx if right else -dx
+        if x >= 505:
             right = False
         elif x <= 135:
             right = True
-        y_ang = (y_ang + 2.5) % 360.0
-        y = 375.0 - 150.0 * math.fabs(math.cos(y_ang * math.pi / 180.0))
+        y_ang = (y_ang + 1.5) % 360.0
+        y = 350.0 - 200.0 * math.fabs(math.cos(y_ang * math.pi / 180.0))
 
         screen.fill(LIGHTGRAY)
         calc_and_draw(screen, phase, 120.0, x, y)
