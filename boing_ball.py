@@ -103,8 +103,8 @@ def init_and_run_loop():
             if event.type == pygame.QUIT:
                 done = True
 
-        phase = (phase + (1.0 if left else 44.0)) % 45.0
-        x += 1.0 if left else -1.0
+        phase = (phase + (43.5 if left else 1.5)) % 45.0
+        x += 1.8 if left else -1.8
         if x >= 550:
             left = False
         elif x <= 250:
