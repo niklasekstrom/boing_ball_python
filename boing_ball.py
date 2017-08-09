@@ -85,7 +85,7 @@ def calc_and_draw(screen, phase, scale, x, y):
 def init_and_run_loop():
     pygame.init()
 
-    size = (800, 600)
+    size = (800, 500)
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("Boing Ball")
@@ -95,7 +95,7 @@ def init_and_run_loop():
 
     phase = 0.0
     x = 400
-    left = True
+    right = True
     y_ang = 0.0
 
     while not done:
@@ -103,17 +103,17 @@ def init_and_run_loop():
             if event.type == pygame.QUIT:
                 done = True
 
-        phase = (phase + (43.5 if left else 1.5)) % 45.0
-        x += 1.8 if left else -1.8
-        if x >= 550:
-            left = False
-        elif x <= 250:
-            left = True
+        phase = (phase + (43.5 if right else 1.5)) % 45.0
+        x += 1.8 if right else -1.8
+        if x >= 680:
+            right = False
+        elif x <= 120:
+            right = True
         y_ang = (y_ang + 2.5) % 360.0
         y = 380.0 - 150.0 * math.fabs(math.cos(y_ang * math.pi / 180.0))
 
         screen.fill(LIGHTGRAY)
-        calc_and_draw(screen, phase, 200.0, x, y)
+        calc_and_draw(screen, phase, 120.0, x, y)
 
         pygame.display.flip()
         clock.tick(60)
