@@ -120,4 +120,5 @@ def init_and_run_loop():
 
     pygame.quit()
 
-init_and_run_loop()
+if __name__ == '__main__':
+    init_and_run_loop()
